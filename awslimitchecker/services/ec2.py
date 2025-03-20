@@ -447,7 +447,10 @@ class _Ec2Service(_AwsService):
         attribs = self.conn.describe_account_attributes()
         for attrib in attribs['AccountAttributes']:
             aname = attrib['AttributeName']
-            val = attrib['AttributeValues'][0]['AttributeValue']
+            attribvals = attrib['AttributeValues']
+            if not attribvals:
+                continue
+            val = attribvals[0]['AttributeValue']
             lname = None
             if aname == 'max-elastic-ips':
                 lname = 'Elastic IP addresses (EIPs)'
